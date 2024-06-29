@@ -6,7 +6,7 @@ type Options = {
 };
 
 export class Reresize {
-  listeners: Record<string, Array<ListenerCallback>> = {};
+  private listeners: Record<string, Array<ListenerCallback>> = {};
 
   private getListeners = (id: string) => {
     return this.listeners[id] || [];
@@ -34,7 +34,7 @@ export class Reresize {
       existingListeners = this.getListeners(id);
 
       if (existingListeners.length === 0) {
-        throw new Error(`No listeners have been defined for "${id}" resizer`);
+        console.error(`No listeners have been defined for "${id}" resizer`);
       }
 
       startingMovingPosition = mousedownEvent.pageX;
