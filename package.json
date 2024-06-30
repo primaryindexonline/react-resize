@@ -1,6 +1,6 @@
 {
   "name": "@primaryindexonline/react-resize",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Change the width of the \"moving\" element('s) by holding and dragging the \"hanger\" element",
   "author": "Konstantin Smirnov <info@etokos.com>",
   "scripts": {
