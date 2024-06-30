@@ -25,6 +25,11 @@
   "files": [
     "dist"
   ],
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [],
   "type": "module",
   "license": "MIT",
