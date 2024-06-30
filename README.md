@@ -4,49 +4,49 @@ Change the width and height of the "moving" element('s) by holding and dragging 
 
 Library allows to:
 
-1. create multiple resizing elements. Each `reresize` should be initialised with the unique `id`;
-2. apply multiple listeners to each `reresize` so other parts of your app can subsribe to changes and reflect correspondingly. You would need to specify the `id` of the `reresize` object you want to add listener to.
+1. create multiple resizing elements. Each `resize` should be created with the unique `id`;
+2. apply multiple listeners to each `resize` so other parts of your app can subsribe to changes and reflect correspondingly. You would need to specify the `id` of the `resize` object you want to add listener to.
 
-When using with `React`, working with references, you don't need to have `state` to update your elements with the new `width`. This allows to have tons of consumers without worrying about performance issues.
+When using with `React`, working with references, you don't need to have `state` to update your elements with the new `width` or `height`. This allows to have tons of consumers without worrying about performance issues.
 
-https://github.com/primaryindexonline/reresize/assets/8969094/797df5e2-9e72-4a96-9b92-400c146ca3ed
+https://github.com/primaryindexonline/resize/assets/8969094/797df5e2-9e72-4a96-9b92-400c146ca3ed
 
 ### API
 
 ```
-npm i @primaryindexonline/reresize
+npm i @primaryindexonline/react-resize
 ```
 
 ```ts
 import {
-  Reresize,
-  ReresizeProvider,
-  useReresize,
-} from "@primaryindexonline/reresize";
+  Resize,
+  ResizeProvider,
+  useResize,
+} from "@primaryindexonline/react-resize";
 ```
 
-1. `Reresize` — class where all the logic lives;
-2. `ReresizeProvider` — wrapper for `React` if you want to apply multiple subsribers;
-3. `useReresize` — hook to access `Reresize` instance once your app is wrapped with `ReresizeProvider`.
+1. `Resize` — class where all the logic lives;
+2. `ResizeProvider` — wrapper for `React` if you want to apply multiple subsribers;
+3. `useResize` — hook to access `Resize` instance once your app is wrapped with `ResizeProvider`.
 
 ---
 
 ### Basic usage
 
 ```ts
-import { Reresize } from "@primaryindexonline/reresize";
+import { Resize } from "@primaryindexonline/react-resize";
 
-const reresizeInstance = new Reresize();
+const resizeInstance = new Resize();
 
 const movingElement = document.getElementById("movingElement");
 const handlerElement = document.getElementById("hangerElement");
 
-const reresizeDummy = reresizeInstance.init("dummy", {
+const resizeDummy = resizeInstance.create("dummy", {
   handlerElement,
   movingElement,
 });
 
-reresizeDummy.addListener((newWidth) => {
+resizeDummy.addListener((newWidth) => {
   movingElement.style.width = `${newWidth}px`;
 });
 ```
@@ -54,18 +54,18 @@ reresizeDummy.addListener((newWidth) => {
 ### Multiple subscribers
 
 ```ts
-const reresizeInstance = new Reresize();
+const resizeInstance = new Resize();
 
 ...
 
-const reresizeDummy = reresizeInstance.init("dummy", {
+const resizeDummy = resizeInstance.create("dummy", {
   handlerElement,
   movingElement
 });
 
 // Anywhere else
 
-reresizeInstance.addListener("dummy", (newWidth) => {
+resizeInstance.addListener("dummy", (newWidth) => {
  // apply "newWidth"
 })
 ```
@@ -79,19 +79,19 @@ you don't need to have state!_
 
 ```ts
 import { useMemo } from "react";
-import { Reresize, ReresizeProvider } from "@primaryindexonline/reresize";
+import { Resize, ResizeProvider } from "@primaryindexonline/react-resize";
 
 import MainConsumer from "./components/mainConsumer";
 import OtherConsumer from "./components/otherConsumer";
 
 export default function Entry() {
-  const reresize = useMemo(() => new Reresize(), []);
+  const resize = useMemo(() => new Resize(), []);
 
   return (
-    <ReresizeProvider value={reresize}>
+    <ResizeProvider value={resize}>
       <MainConsumer />
       <OtherConsumer />
-    </ReresizeProvider>
+    </ResizeProvider>
   );
 }
 ```
@@ -100,27 +100,27 @@ export default function Entry() {
 
 ```ts
 import { useEffect, useState, useCallback } from "react";
-import { useReresize } from "@primaryindexonline/reresize";
+import { useResize } from "@primaryindexonline/react-resize";
 
 export default function MainConsumer() {
-  const reresize = useReresize();
+  const resize = useResize();
 
   const [handlerElement, setHandlerElement] = useState<HTMLDivElement>();
   const [movingElement, setMovingElement] = useState<HTMLDivElement>();
 
   useEffect(() => {
     if (handlerElement && movingElement) {
-      const reresizeDummy = reresize.init("dummy", {
+      const resizeDummy = resize.create("dummy", {
         handlerElement,
         movingElement
       });
 
-      reresizeDummy.addListener((newWidth) => {
+      resizeDummy.addListener((newWidth) => {
         movingElement.style.width = `${newWidth}px`;
       });
 
       return () => {
-        reresizeDummy.removeListeners();
+        resizeDummy.removeListeners();
       };
     }
   }, [handlerElement, movingElement]);
@@ -165,10 +165,10 @@ export default function MainConsumer() {
 ```ts
 import { useEffect, useState, useCallback } from "react";
 
-import { useReresize } from "@primaryindexonline/reresize";
+import { useResize } from "@primaryindexonline/react-resize";
 
 export default function OtherConsumer() {
-  const reresize = useReresize();
+  const resize = useResize();
 
   const [movingElement, setMovingElement] = useState<HTMLDivElement>();
 
@@ -178,7 +178,7 @@ export default function OtherConsumer() {
 
   useEffect(() => {
     if (movingElement) {
-      reresize.addListener("dummy", (newWidth) => {
+      resize.addListener("dummy", (newWidth) => {
         movingElement.style.width = `${newWidth}px`;
       });
     }
