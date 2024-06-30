@@ -1,26 +1,27 @@
 import { useEffect, useState, useCallback } from "react";
 
-import { useReresize } from "../lib/hooks/useReresize";
-import { DEFAULT_WIDTH } from "./const";
+import { useResize } from "../lib/hooks/useResize";
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./const";
 
 export default function Reresizer({ id }: { id: string }) {
-  const reresize = useReresize();
+  const resizeInstance = useResize();
   const [boxRef, setBoxRef] = useState<HTMLDivElement>();
   const [moverRef, setMoverRef] = useState<HTMLDivElement>();
 
   useEffect(() => {
     if (boxRef && moverRef) {
-      const reresizeInstance = reresize.init(id, {
+      const mainConsumer = resizeInstance.create(id, {
         handlerElement: moverRef,
         movingElement: boxRef,
       });
 
-      reresizeInstance.addListener((newWidth) => {
+      mainConsumer.addListener((newWidth, newHeight) => {
         boxRef.style.width = `${newWidth}px`;
+        boxRef.style.height = `${newHeight}px`;
       });
 
       return () => {
-        reresizeInstance.removeListeners();
+        mainConsumer.removeListeners();
       };
     }
   }, [boxRef, moverRef]);
@@ -38,23 +39,24 @@ export default function Reresizer({ id }: { id: string }) {
       ref={setBoxRefCallback}
       style={{
         width: DEFAULT_WIDTH,
-        height: 200,
+        height: DEFAULT_HEIGHT,
         background: "#eee",
         position: "relative",
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 5,
       }}
     >
+      Here goes the content
       <div
         ref={setMoverRefCallback}
         style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
           cursor: "col-resize",
+          background: "pink",
         }}
       >
-        resize
+        <b>DRAG ME</b>
       </div>
-      Here goes the content
     </div>
   );
 }

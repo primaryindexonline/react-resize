@@ -1,11 +1,11 @@
-type ListenerCallback = (newWidth: number) => unknown;
+type ListenerCallback = (newWidth: number, newHeight: number) => unknown;
 
 type Options = {
   movingElement: HTMLElement;
   handlerElement: HTMLElement;
 };
 
-export class Reresize {
+export class Resize {
   private listeners: Record<string, Array<ListenerCallback>> = {};
 
   private getListeners = (id: string) => {
@@ -25,9 +25,11 @@ export class Reresize {
     delete this.listeners[id];
   };
 
-  init = (id: string, { movingElement, handlerElement }: Options) => {
-    let startingMovingPosition: number;
+  create = (id: string, { movingElement, handlerElement }: Options) => {
+    let startingMovingPositionX: number;
+    let startingMovingPositionY: number;
     let startingBoxWidth: number;
+    let startingBoxHeight: number;
     let existingListeners: (typeof this.listeners)[string] = [];
 
     const onMouseDown = (mousedownEvent: MouseEvent) => {
@@ -37,8 +39,11 @@ export class Reresize {
         console.error(`No listeners have been defined for "${id}" resizer`);
       }
 
-      startingMovingPosition = mousedownEvent.pageX;
+      startingMovingPositionX = mousedownEvent.pageX;
       startingBoxWidth = movingElement.getBoundingClientRect().width;
+
+      startingMovingPositionY = mousedownEvent.pageY;
+      startingBoxHeight = movingElement.getBoundingClientRect().height;
 
       mousedownEvent.preventDefault();
 
@@ -47,11 +52,14 @@ export class Reresize {
     };
 
     const resize = (mousemoveEvent: MouseEvent) => {
-      const offsetX = mousemoveEvent.pageX - startingMovingPosition;
+      const offsetX = mousemoveEvent.pageX - startingMovingPositionX;
       const newWidth = startingBoxWidth + offsetX;
 
+      const offsetY = mousemoveEvent.pageY - startingMovingPositionY;
+      const newHeight = startingBoxHeight + offsetY;
+
       existingListeners.forEach((listenerCallback) => {
-        listenerCallback(newWidth);
+        listenerCallback(newWidth, newHeight);
       });
     };
 

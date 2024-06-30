@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 
-import { useReresize } from "../lib/hooks/useReresize";
-import { DEFAULT_WIDTH } from "./const";
+import { useResize } from "../lib/hooks/useResize";
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from "./const";
 
 export default function Consumer({ index, id }: { index: number; id: string }) {
   const randomColor = "#" + (((1 << 24) * Math.random()) | 0).toString(16);
-  const reresize = useReresize();
+  const resizeInstance = useResize();
   const [ref, setRef] = useState<HTMLDivElement>();
 
   const setRefCallback = useCallback((node: HTMLDivElement) => {
@@ -14,8 +14,9 @@ export default function Consumer({ index, id }: { index: number; id: string }) {
 
   useEffect(() => {
     if (ref) {
-      reresize.addListener(id, (newWidth) => {
+      resizeInstance.addListener(id, (newWidth, newHeight) => {
         ref.style.width = `${newWidth}px`;
+        ref.style.height = `${newHeight}px`;
       });
     }
   }, [ref, id]);
@@ -23,7 +24,11 @@ export default function Consumer({ index, id }: { index: number; id: string }) {
   return (
     <div
       ref={setRefCallback}
-      style={{ background: randomColor, width: DEFAULT_WIDTH }}
+      style={{
+        background: randomColor,
+        width: DEFAULT_WIDTH,
+        height: DEFAULT_HEIGHT,
+      }}
     >
       Consumer {index}
     </div>

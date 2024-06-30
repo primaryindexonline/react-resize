@@ -1,6 +1,6 @@
 # react-resize
 
-Change the width of the "moving" element('s) by holding and dragging the "hanger" element.
+Change the width and height of the "moving" element('s) by holding and dragging the "hanger" element.
 
 Library allows to:
 

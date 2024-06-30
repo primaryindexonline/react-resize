@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Reresize, ReresizeProvider } from "./lib";
+import { Resize, ResizeProvider } from "./lib";
 
 import Resizer from "./components/resizer";
 import Consumer from "./components/consumer";
@@ -8,22 +8,22 @@ const NUMBER_OF_CONSUMERS_PER_RESIZER = 10;
 const resizerList = ["uno", "dos", "tres"];
 
 export default function Entry() {
-  const reresize = useMemo(() => new Reresize(), []);
+  const resizeInstance = useMemo(() => new Resize(), []);
 
   return (
-    <ReresizeProvider value={reresize}>
-      {resizerList.map((resizerId) => {
+    <ResizeProvider value={resizeInstance}>
+      {resizerList.map((resizerId, index) => {
         return (
-          <>
+          <div key={index} style={{ marginBottom: 30 }}>
             <Resizer id={resizerId} />
             {Array.from(Array(NUMBER_OF_CONSUMERS_PER_RESIZER).keys()).map(
               (v, i) => {
                 return <Consumer key={i} index={i} id={resizerId} />;
               }
             )}
-          </>
+          </div>
         );
       })}
-    </ReresizeProvider>
+    </ResizeProvider>
   );
 }
