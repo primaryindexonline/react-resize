@@ -1,6 +1,6 @@
 {
   "name": "@primaryindexonline/reresize",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Change the width of the \"moving\" element('s) by holding and dragging the \"hanger\" element",
   "author": "Konstantin Smirnov <info@etokos.com>",
   "scripts": {
