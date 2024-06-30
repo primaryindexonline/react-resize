@@ -1,6 +1,6 @@
 # Reresize
 
-Change the width of the "moving" element by holding and moving the "hanger" element.
+Change the width of the "moving" element('s) by holding and dragging the "hanger" element.
 
 Library allows to:
 1. create multiple resizing elements. Each `reresize` should be initialised with the unique `id`;
