@@ -44,6 +44,45 @@ describe("Reressize", () => {
     expect(movingElement.style.width).toBe("201px");
   });
 
+  it("changes the height of the movingElement", () => {
+    const resize = new Resize();
+    console.error = jest.fn();
+
+    const movingElement = document.createElement("div");
+    jest
+      .spyOn(movingElement, "getBoundingClientRect")
+      .mockImplementation(() => {
+        return { height: 150 } as DOMRect;
+      });
+
+    const handlerElement = document.createElement("div");
+
+    const dummyReresize = resize.create("dummy", {
+      movingElement,
+      handlerElement,
+    });
+
+    dummyReresize.addListener((newWidth, newHeight) => {
+      movingElement.style.height = `${newHeight}px`;
+    });
+
+    const mouseDownEvent = new Event("mousedown") as MouseEvent as {
+      pageY: number;
+    };
+    mouseDownEvent.pageY = 0;
+
+    handlerElement.dispatchEvent(mouseDownEvent as MouseEvent);
+
+    const mouseMoveEvent = new Event("mousemove") as MouseEvent as {
+      pageY: number;
+    };
+    mouseMoveEvent.pageY = 1;
+
+    window.dispatchEvent(mouseMoveEvent as MouseEvent);
+
+    expect(movingElement.style.height).toBe("151px");
+  });
+
   it("prints error message in the console", () => {
     const resize = new Resize();
     console.error = jest.fn();
