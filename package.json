@@ -26,6 +26,9 @@
     "dist"
   ],
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [],
   "type": "module",
   "license": "MIT",
