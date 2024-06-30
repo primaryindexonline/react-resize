@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 
-import { Reresize } from "./reresize";
+import { Resize } from "./resize";
 
 describe("Reressize", () => {
   it("changes the width of the movingElement", () => {
-    const reresize = new Reresize();
+    const resize = new Resize();
     console.error = jest.fn();
 
     const movingElement = document.createElement("div");
@@ -18,7 +18,7 @@ describe("Reressize", () => {
 
     const handlerElement = document.createElement("div");
 
-    const dummyReresize = reresize.init("dummy", {
+    const dummyReresize = resize.create("dummy", {
       movingElement,
       handlerElement,
     });
@@ -45,13 +45,13 @@ describe("Reressize", () => {
   });
 
   it("prints error message in the console", () => {
-    const reresize = new Reresize();
+    const resize = new Resize();
     console.error = jest.fn();
 
     const movingElement = document.createElement("div");
     const handlerElement = document.createElement("div");
 
-    reresize.init("dummy", {
+    resize.create("dummy", {
       movingElement,
       handlerElement,
     });

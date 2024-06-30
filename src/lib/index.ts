@@ -1,4 +1,4 @@
-import { Reresize } from "./reresize";
-import { ReresizeProvider, useReresize } from "./hooks/useReresize";
+import { Resize } from "./resize";
+import { ResizeProvider, useResize } from "./hooks/useResize";
 
-export { useReresize, ReresizeProvider, Reresize };
+export { useResize, ResizeProvider, Resize };
