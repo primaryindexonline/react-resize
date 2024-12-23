@@ -6,12 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "test": "jest",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "format": "prettier --write 'src/**/*.ts'",
     "format:check": "prettier 'src/**/*.ts'"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primaryindexonline/react-resize.git"
+  },
+  "bugs": {
+    "url": "https://github.com/primaryindexonline/react-resize/issues"
+  },
+  "homepage": "https://github.com/primaryindexonline/react-resize#readme",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -34,7 +43,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/react": "^18.3.3",
+    "@types/react": "latest",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -54,8 +63,8 @@
     }
   },
   "peerDependencies": {
-    "@types/react": "^17.0.0 || ^18.0.0",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "@types/react": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   }
 }
